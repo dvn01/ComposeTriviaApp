@@ -51,8 +51,7 @@ fun Questions(viewModel: QuestionViewModel) {
             QuestionDisplay(
                 question = question!!,
                 questionIndex = questionIndex,
-                viewModel = viewModel,
-                questionsCount = questions.size
+                viewModel = viewModel
             ) {
                 questionIndex.value = questionIndex.value + 1
             }
@@ -66,7 +65,6 @@ fun QuestionDisplay(
     question: QuestionItem,
     questionIndex: MutableState<Int>,
     viewModel: QuestionViewModel,
-    questionsCount: Int,
     onNextClicked: (Int) -> Unit = {}
 ) {
     val choicesState = remember(question) {
@@ -99,9 +97,9 @@ fun QuestionDisplay(
         ) {
 
             if (questionIndex.value > 0) {
-                ShowProgress(score = (questionIndex.value / questionsCount) * 100)
+                ShowProgress(score = (questionIndex.value / viewModel.getTotalQuestionCount()) * 100)
             }
-            QuestionTracker(questionIndex.value, questionsCount)
+            QuestionTracker(questionIndex.value, viewModel.getTotalQuestionCount())
             DottedLine(pathEffect)
 
             Column {
